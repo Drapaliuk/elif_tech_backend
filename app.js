@@ -5,7 +5,8 @@ const logger = require('morgan');
 const cors = require('cors');
 
 const isAuthorization = require('./middlewares/is_authorizathison');
-const authRouter = require('./routes/auth/router')
+const authRouter = require('./routes/auth/router');
+const checkOutAuthMiddleware = require('./routes/auth/check_out_auth');
 const errorHandler = require('./errors_handlers/errors_handler');
 const notFound = require('./errors_handlers/404');
 const app = express();
@@ -26,7 +27,15 @@ const corsOptions = {
 }
 
 app.use(cors(corsOptions));
-app.use('/auth', authRouter)
+app.use('/test', (req, res) => {
+  res.send('Hello server!!--!!')
+})
+app.use('/auth', authRouter) //як це виправити?
+app.use('/', isAuthorization)
+app.post('/auth/check-out-auth', checkOutAuthMiddleware)
+
+
+
 
 app.use(notFound);
 app.use(errorHandler)

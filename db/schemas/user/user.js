@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { ServiceSchema } = require('../bank_service');
 
 
 exports.UserSchema = new mongoose.Schema({
@@ -6,12 +7,15 @@ exports.UserSchema = new mongoose.Schema({
         login: String,
         password: String,
         refreshToken: String,
-        role: {
-            type: String, 
-            default: 'user'
-        }
+        role: String
     },
-    
+    myCreatedBanksIds: [String], 
+    balance: {
+        type: Number,
+        default: 0
+    },
+    activeBankServices:[ServiceSchema]
+
 });
 
 

@@ -8,6 +8,8 @@ const ResponseError = require("../errors_handlers/response_error");
 const isAuthorization = async (req, res, next) => {
     const token = req.headers.authorization;
     const refreshToken = req.headers.refresh_token;
+    console.log('token', token)
+    console.log('refreshToken', refreshToken)
 
     const {jwtKey, tokenOptions} = authConfigs;
     let shouldUpdateTokens = null;
