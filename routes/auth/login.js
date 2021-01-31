@@ -9,14 +9,13 @@ const middlewares = {
     post: async (req, res, next) => { 
         const {login, password} = req.body;
         const {tokenOptions, jwtKey} = configs.authConfigs;
-        console.log('INSIDE')
 
         if(!login || !password) {
             return next(new ResponseError('LACK PASSWORD OR LOGIN', 400, 'your not passed password or login'))
         }
 
         const user = await User.findOne({'auth.login': login});
-      
+        console.log('user', user)
         if(!user) {
             return next(new ResponseError('LOGIN NOT REGISTERED', 404, 'user is not found by passed login'))
         }
@@ -35,7 +34,7 @@ const middlewares = {
             return next(new Error())
         }
 
-        res.status(200).json({userId: user._id, token, refreshToken, user: updatedUser})
+        res.status(200).json({userId: user._id, token, refreshToken, user: updatedUser, role: user.auth.role})
     }
 }
 

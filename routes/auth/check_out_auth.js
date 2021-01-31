@@ -1,4 +1,3 @@
-// /auth/check-out
 const DBSelectors = require("../../utils/DBSelectors");
 
 const checkOutAuthMiddleware = async (req, res) => {

@@ -6,6 +6,7 @@ const cors = require('cors');
 
 const isAuthorization = require('./middlewares/is_authorizathison');
 const authRouter = require('./routes/auth/router');
+const bankRouter = require('./routes/bank/router')
 const checkOutAuthMiddleware = require('./routes/auth/check_out_auth');
 const errorHandler = require('./errors_handlers/errors_handler');
 const notFound = require('./errors_handlers/404');
@@ -33,6 +34,7 @@ app.use('/test', (req, res) => {
 app.use('/auth', authRouter) //як це виправити?
 app.use('/', isAuthorization)
 app.post('/auth/check-out-auth', checkOutAuthMiddleware)
+app.use('/bank', bankRouter)
 
 
 

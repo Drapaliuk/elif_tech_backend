@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const { ServiceSchema } = require('../bank_service');
 
 
 exports.UserSchema = new mongoose.Schema({
@@ -14,7 +13,6 @@ exports.UserSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
-    activeBankServices:[ServiceSchema]
 
 });
 

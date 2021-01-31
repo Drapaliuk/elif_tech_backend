@@ -1,32 +1,31 @@
 const DBSelectors = require("../../utils/DBSelectors");
-const defaultTasksListsIds = require('../../service_data/default_tasks_lists_ids');
-const { Bank } = require("../../db/models/user/user");
+const {Bank} = require('../../db/models/bank/bank');
 
 const middlewares = {
     post: async (req, res) => {
         const {userId} = req;
-        const {bankInfo} = req.body;
+        const {infoAboutNewBank} = req.body;
+        const {bankName, ...indicators} = infoAboutNewBank;
+        console.log(bankName, indicators)
         const user = await DBSelectors.getUserById(userId);
-        const bank = await Bank.create(bankInfo)
-        user.myCreatedBanksIds.push(bank._id)
+        const createdBank = await Bank.create({bankName, indicators})
+
+        user.myCreatedBanksIds.push(createdBank._id)
         user.save()
-        const response = {bank}
+        const response = {createdBank}
 
         res.status(201).json(response)
     },
 
-    put: async (req, res) => {
+    updateIndicators: async (req, res) => {
       const {selectedBankId, newValue} = req.body;
 
-      const user = await DBSelectors.getUserById(req.userId)
-      const list = DBSelectors.getSelectedList(user, selectedListId)
-      const [key, value] = Object.entries(newValue)[0]
-      list[key] = value;
-      user.save();
-
+      const bank = await Bank.findById(selectedBankId)
+      bank.indicators = newValue
+      bank.save()
       const response = {
-        bankId,
-        updatedValue: newValue
+        bankId: selectedBankId,
+        updatedIndicators: newValue
       }
 
       res.status(200).json(response)
@@ -35,18 +34,20 @@ const middlewares = {
     delete: async (req, res) => {
         const {userId} = req;
         const {bankId} = req.body;
-
-        const user = await DBSelectors.getUserById(userId);
+        console.log('bankId', bankId)
+        // const user = await DBSelectors.getUserById(userId);
         const bank = await Bank.findByIdAndDelete(bankId);
-        user.tasksLists.id(listId).remove()
-        user.save()
-        res.status(200).json({deletedBankId: listId})
+        console.log('bank')
+        // user.tasksLists.id(bankId).remove()
+        // user.save()
+        res.status(200).json({deletedBankId: bankId})
     },
+    get: async (req, res) => {
+      const {userId} = req;
+      const allBanks = await Bank.find({});
+      res.status(200).json({allBanks})
 
-    // getAvailableBanks: async (req, res) => {
-    //     const banks = await Bank.find('');
-        
-    // }
+    }
     
 }
 

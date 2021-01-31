@@ -1,16 +1,14 @@
 const mongoose = require('mongoose');
 
-const schemaOfBankIndicator = new mongoose.Schema({
-    value: Number,
-    units: String,
-})
-
 exports.BankSchema = new mongoose.Schema({
     bankName: String,
-    interestRate: schemaOfBankIndicator,
-    maximumLoan: schemaOfBankIndicator,
-    minimumDownPayment: schemaOfBankIndicator,
-    loanTerm: schemaOfBankIndicator
+    indicators: {
+        interestRate: Number,
+        maximumLoan: Number,
+        minimumDownPayment: Number,
+        loanTerm: Number
+    }
+    
 });
 
 
