@@ -1,5 +1,7 @@
 const DBSelectors = require("../../utils/DBSelectors");
 const {Bank} = require('../../db/models/bank/bank');
+const {User} = require('../../db/models/user/user');
+
 
 const middlewares = {
     post: async (req, res) => {
@@ -35,17 +37,20 @@ const middlewares = {
         const {userId} = req;
         const {bankId} = req.body;
         console.log('bankId', bankId)
-        // const user = await DBSelectors.getUserById(userId);
-        const bank = await Bank.findByIdAndDelete(bankId);
-        console.log('bank')
-        // user.tasksLists.id(bankId).remove()
-        // user.save()
+        await Bank.findByIdAndDelete(bankId);
         res.status(200).json({deletedBankId: bankId})
     },
     get: async (req, res) => {
       const {userId} = req;
+      const {myCreatedBanksIds} = await User.findById(userId);
       const allBanks = await Bank.find({});
-      res.status(200).json({allBanks})
+      
+
+      // const banks = await Bank.find({});
+      // const personalBanks = await Bank.findById(myCreatedBanksIds) || [];
+      // console.log('personalBanks', personalBanks)
+      // const allBanks = banks.filter(bank => !personalBanks.includes(bank._id))
+      res.status(200).json({allBanks, personalBanks: []})
 
     }
     
