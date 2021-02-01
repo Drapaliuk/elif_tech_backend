@@ -44,7 +44,7 @@ const middlewares = {
       const {userId} = req;
       const {myCreatedBanksIds} = await User.findById(userId);
       const allBanks = await Bank.find({});
-      
+    
 
       // const banks = await Bank.find({});
       // const personalBanks = await Bank.findById(myCreatedBanksIds) || [];
@@ -52,7 +52,17 @@ const middlewares = {
       // const allBanks = banks.filter(bank => !personalBanks.includes(bank._id))
       res.status(200).json({allBanks, personalBanks: []})
 
+    },
+
+    updateBalance: async (req, res) => {
+        const {newBalance} = req.body;
+        const user = await DBSelectors.getUserById(req.userId);
+        user.balance = newBalance;
+        user.save()
+        res.status(200).json({updateBalance: newBalance})
+      
     }
+
     
 }
 

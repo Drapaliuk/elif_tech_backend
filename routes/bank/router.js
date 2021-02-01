@@ -7,5 +7,6 @@ router.post('/', bank.post)
       .put('/', bank.updateIndicators)
       .delete('/', bank.delete)
       .get('/', bank.get)
+      .put('/balance', bank.updateBalance)
 
 module.exports = router;
