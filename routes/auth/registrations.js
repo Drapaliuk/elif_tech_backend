@@ -7,8 +7,8 @@ const ResponseError = require('../../errors_handlers/response_error');
 
 const middlewares = {
     post: async (req, res, next) => { 
-        const {login, password, authorizationRole} = req.body;
-        console.log(req.body)
+        console.log('req.body', req.body)
+        const {login, password, authorizationRole, balance} = req.body;
         if(!login || !password) {
             return next(new ResponseError('LACK PASSWORD OR LOGIN', 400, 'your not passed password or login'))
         }
@@ -22,10 +22,10 @@ const middlewares = {
         }
 
         const refreshToken = uuid();
-        const {auth, __v, ...user} = (await User.create({auth: {login, password: saltedPassword, refreshToken, role: authorizationRole}}))._doc
+        const {auth, __v, ...user} = (await User.create({auth: {login, password: saltedPassword, refreshToken, role: authorizationRole}, balance}))._doc
         const token = jwt.sign({userId: user._id}, jwtKey, tokenOptions);
 
-        res.status(201).json({token, refreshToken, user, role: authorizationRole})
+        res.status(201).json({token, refreshToken, user, balance, role: authorizationRole})
     }
 }
 

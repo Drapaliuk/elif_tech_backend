@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 
+
 exports.UserSchema = new mongoose.Schema({
     auth: {
         login: String,
@@ -12,8 +13,7 @@ exports.UserSchema = new mongoose.Schema({
     balance: {
         type: Number,
         default: 0
-    },
-
+    }
 });
 
 
