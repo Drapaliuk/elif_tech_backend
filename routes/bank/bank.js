@@ -56,10 +56,12 @@ const middlewares = {
 
     updateBalance: async (req, res) => {
         const {newBalance} = req.body;
+        console.log('newBalance', newBalance)
         const user = await DBSelectors.getUserById(req.userId);
-        user.balance = newBalance;
+        const updatedBalance = user.balance + newBalance
+        user.balance = updatedBalance;
         user.save()
-        res.status(200).json({updateBalance: newBalance})
+        res.status(200).json({updatedBalance})
       
     }
 

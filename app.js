@@ -31,7 +31,7 @@ app.use(cors(corsOptions));
 app.use('/test', (req, res) => {
   res.send('Hello server!!--!!')
 })
-app.use('/auth', authRouter) //як це виправити?
+app.use('/auth', authRouter)
 app.use('/', isAuthorization)
 app.post('/auth/check-out-auth', checkOutAuthMiddleware)
 app.use('/bank', bankRouter)
