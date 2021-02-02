@@ -5,11 +5,8 @@ const {User} = require('../../db/models/user/user');
 
 const middlewares = {
     post: async (req, res) => {
-        const {userId} = req;
         const {infoAboutNewBank} = req.body;
         const {bankName, ...indicators} = infoAboutNewBank;
-        console.log(bankName, indicators)
-        const user = await DBSelectors.getUserById(userId);
         const createdBank = await Bank.create({bankName, indicators})
 
         user.myCreatedBanksIds.push(createdBank._id)
@@ -34,29 +31,18 @@ const middlewares = {
     },
 
     delete: async (req, res) => {
-        const {userId} = req;
         const {bankId} = req.body;
-        console.log('bankId', bankId)
         await Bank.findByIdAndDelete(bankId);
         res.status(200).json({deletedBankId: bankId})
     },
+
     get: async (req, res) => {
-      const {userId} = req;
-      const {myCreatedBanksIds} = await User.findById(userId);
       const allBanks = await Bank.find({});
-    
-
-      // const banks = await Bank.find({});
-      // const personalBanks = await Bank.findById(myCreatedBanksIds) || [];
-      // console.log('personalBanks', personalBanks)
-      // const allBanks = banks.filter(bank => !personalBanks.includes(bank._id))
-      res.status(200).json({allBanks, personalBanks: []})
-
+      res.status(200).json({allBanks})
     },
 
     updateBalance: async (req, res) => {
         const {newBalance} = req.body;
-        console.log('newBalance', newBalance)
         const user = await DBSelectors.getUserById(req.userId);
         const updatedBalance = user.balance + newBalance
         user.balance = updatedBalance;

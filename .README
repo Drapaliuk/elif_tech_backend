@@ -1,0 +1,77 @@
+What is it?
+
+This is server side for bank simulation application, you can 
+find all information about server API and author below.
+
+author: Vitalii Drapaliuk
+Contacts:
+    email: vitaliidrapaliuk@gmail.com
+    phone: +38068 930 86 84
+    git hub: https://github.com/Drapaliuk
+    linkedin: https://www.linkedin.com/in/vitalii-drapaliuk-b096761a3/
+
+
+server API:
+    /auth
+          /registration POST method
+                        request: {token: string, refreshTokenL string, balance: number, role: string}  
+                        response: {login: string, password: string, authorizationRole: string, balance: number} 
+                                                                                
+          /login POST method
+                 request: {login: string, password: string}
+                 response: {userId: string, token, string, user: Object role: string} 
+
+          /check-out-auth POST method
+                          request: {token: string, refreshToken: string}
+                          response:  { shouldUpdateTokens: {token: string, refreshToken: string} | null, 
+                                     payload: {role: string, balance: number}}
+
+        ERRORS:
+          {
+              'LOGIN NOT REGISTERED': {
+                  message: 'Login is not registered!'
+              },
+              'INVALID PASSWORD': {
+                  message: 'Invalid password!'
+              },
+              'LACK PASSWORD OR LOGIN': {
+                  message: 'Lack password or login!'
+              },
+              'LOGIN ALREADY USE': {
+                  message: 'This login has already use!'
+          }
+
+
+
+
+
+
+    /bank
+            bank schema    NOTE!
+            { bankName: String,
+                indicators: {
+                    interestRate: Number,
+                    maximumLoan: Number,
+                    minimumDownPayment: Number,
+                    loanTerm: Number
+                }
+            }
+
+           /  POST method
+              request: {infoAboutNewBank: [bank schema]}          
+              response: {createdBank: [bank schema]}
+
+           /  PUT method 
+              response: {bankId: string, updatedIndicators: Object}
+              request: {selectedBankId: string, newValue: [bank schema]}
+
+            / DELETE method
+              response: {deletedBankId: string} 
+              request: {bankId: string}
+            
+            / GET method
+                response:  {allBanks: array}
+
+            /balance PUT method
+                    request:  {updatedBalance: number}
+                    response:  {newBalance: number}
