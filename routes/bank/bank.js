@@ -1,7 +1,5 @@
 const DBSelectors = require("../../utils/DBSelectors");
 const {Bank} = require('../../db/models/bank/bank');
-const {User} = require('../../db/models/user/user');
-
 
 const middlewares = {
     post: async (req, res) => {
@@ -9,11 +7,7 @@ const middlewares = {
         const {bankName, ...indicators} = infoAboutNewBank;
         const createdBank = await Bank.create({bankName, indicators})
 
-        user.myCreatedBanksIds.push(createdBank._id)
-        user.save()
-        const response = {createdBank}
-
-        res.status(201).json(response)
+        res.status(201).json({createdBank})
     },
 
     updateIndicators: async (req, res) => {

@@ -6,7 +6,6 @@ exports.BankSchema = new mongoose.Schema({
         interestRate: Number,
         maximumLoan: Number,
         minimumDownPayment: Number,
-        loanTerm: Number
     }
     
 });

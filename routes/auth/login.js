@@ -15,7 +15,6 @@ const middlewares = {
         }
 
         const user = await User.findOne({'auth.login': login});
-        console.log('user', user)
         if(!user) {
             return next(new ResponseError('LOGIN NOT REGISTERED', 404, 'user is not found by passed login'))
         }
@@ -34,7 +33,7 @@ const middlewares = {
             return next(new Error())
         }
 
-        res.status(200).json({userId: user._id, token, refreshToken, user: updatedUser, role: user.auth.role})
+        res.status(200).json({userId: user._id, token, balance: user.balance, refreshToken, user: updatedUser, role: user.auth.role})
     }
 }
 
